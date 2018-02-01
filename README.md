@@ -3,7 +3,7 @@
 ## Introduction
 The installer will allow Swarm City to be installed on any platform via the command  `npm install SwarmCity` The user will be prompted to answer a number of questions leading to a fully working version of the project whether it be locally for development, or general use or to be deployed on the server for production or testing.
 
-## Install dependencies
+## Pre-requisites
 
 - nodejs
 
@@ -17,6 +17,8 @@ The installer will allow Swarm City to be installed on any platform via the comm
 
    Install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) commandline tool.
 
+## Install dependencies
+
 - docker
 
    Install [docker](https://docs.docker.com/engine/installation). The community edition (docker-ce) will work. In Linux make sure you grant permissions to the current user to use docker by adding current user to docker group, `sudo usermod -aG docker $USER`. Once you update the users group, exit from the current terminal and open a new one to make effect.
@@ -26,3 +28,12 @@ The installer will allow Swarm City to be installed on any platform via the comm
    Install [docker-compose](https://docs.docker.com/compose/install)
    
 **Note**:- Make sure you can run `git`, `docker ps`, `docker-compose` without any issue and without sudo command.
+
+## Installation
+
+```
+$ git clone https://github.com/swarmcity/SwarmCityInstaller.git
+$ cd SwarmCityInstaller
+$ npm install
+$ node swarmCity.js init
+````
