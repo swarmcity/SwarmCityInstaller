@@ -1,0 +1,66 @@
+version: "3.3"
+services:
+  certs: 
+    image: "${CERTS_IMAGE}"
+    env_file:
+      - platform.env
+    volumes:
+      - ${WORKSPACE}/ssl:/etc/letsencrypt
+
+  site:
+    image: "${SITE_IMAGE}"
+    env_file:
+      - platform.env
+    depends_on:
+      - certs
+    volumes:
+      - ${WORKSPACE}/SwarmCitySite:/root
+
+  store:
+    image: "${STORE_IMAGE}"
+    env_file:
+      - platform.env
+    depends_on:
+      - certs
+
+  chain:
+    image: "${CHAIN_IMAGE}"
+    ports:
+      - "8080:8080"
+      - "8545:8545"
+      - "8180:8180"
+    env_file:
+      - platform.env
+
+  api:
+    build: SwarmCityAPI
+    env_file:
+      - platform.env
+    depends_on:
+      - certs
+      - store
+      - chain
+    links:
+      - store
+      - chain
+    command:
+      - 'socket.js'
+
+  proxy:
+    image: "${PROXY_IMAGE}"
+    env_file:
+      - platform.env
+    volumes:
+      - ${WORKSPACE}/ssl/nginx-certs:/etc/nginx/ssl
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - certs
+      - site
+      - api
+    links:
+      - certs
+      - site
+      - api
+ 
