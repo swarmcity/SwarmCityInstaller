@@ -36,4 +36,29 @@ $ git clone https://github.com/swarmcity/SwarmCityInstaller.git
 $ cd SwarmCityInstaller
 $ npm install
 $ node swarmCity.js init
+$ node swarmCity.js build
 ````
+
+## Start
+```
+$ node swarmCity.js start
+```
+## Stop
+```
+$ node swarmCity.js stop
+```
+## Status
+```
+$ node swarmCity.js ps
+```
+## Logs
+```
+# All
+$ node swarmCity.js logs
+# Chain
+$ node swarmCity.js logs chain
+# API
+$ node swarmCity.js logs api
+# Store
+$ node swarmCity.js logs store
+```

@@ -530,13 +530,8 @@ function composeUp() {
       logger.log('Error', "Code: " + code + ", msg: " + stderr);
       console.log('Error', "Code: " + code + ", msg: " + stderr);
     } else {
-      console.log(chalk.blue("Update /etc/hosts entries to verify the setup."));
-      console.log(chalk.underline.bgMagenta(
-        chalk.white("$ sudo vim /etc/hosts")));
-      console.log(chalk.blue("Add following lines to the file"));
-      console.log(chalk.underline.bgBlue(chalk.white("127.0.0.1 " + site)));
-      console.log(chalk.underline.bgBlue(chalk.white("127.0.0.1 " + api)));
-      console.log(chalk.blue("Save and exit using \'<Esc> :wq\'"));
+      console.log(chalk.blue("Now you can access the web on this address:"));
+      console.log(chalk.underline.bgBlue(chalk.white("http://localhost:8081")));
     }
   });
 }
