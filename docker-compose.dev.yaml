@@ -1,0 +1,56 @@
+version: "3.3"
+
+volumes:
+    rinkeby:
+
+services:  
+  store:
+    image: "${STORE_IMAGE}"
+    ports:
+      - "127.0.0.1:4001:4001"
+      - "127.0.0.1:5001:5001"
+      - "127.0.0.1:8080:8080"
+    env_file:
+      - platform.env
+
+  chain:
+    image: swarmcity/swarmcity_chain:rinkeby
+    ports:
+      - "127.0.0.1:8445:8545"
+      - "127.0.0.1:8446:8546"
+      - "34343:30303"
+    volumes:
+      - rinkeby:/home/.rinkeby
+    env_file:
+      - platform.env
+
+  api:
+    build: SwarmCityAPI
+    env_file:
+      - .env
+    ports:
+      - "8011:8011"
+    volumes:
+      - ./SwarmCityAPI/src:/root/src
+    depends_on:
+      - store
+      - chain
+    links:
+      - store
+      - chain
+
+  site:
+    build: SwarmCitySite
+    env_file:
+      - platform.env
+    ports:
+      - "8081:8081"
+    links:
+      - api
+    volumes:
+      - ./SwarmCitySite:/root
+    command:
+      - "polymer"
+      - "serve" 
+      - "--hostname" 
+      - "0.0.0.0"
