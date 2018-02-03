@@ -38,7 +38,7 @@ logger.remove(logger.transports.Console);
 cmd.option('ps', 'Show running status')
   .option('init', 'initialize configurations')
   .option('start', 'Start swarmCity system.')
-  //  .option('server', 'Initialize swarmCity system in a server environment')
+  //  .option('server', 'Initialize swarmCity in a server environment')
   .option('build', 'Build repos and docker images')
   .option('logs [name]', 'Get docker logs', /^(site|api|store|proxy|certs|parity)$/i)
   .option('stop', 'Stop all running dockers')
@@ -59,7 +59,7 @@ cmd.option('ps', 'Show running status')
 function getInterface() {
   var promise = new Promise(function (resolve, reject) {
     setTimeout(function () {
-      figlet.text('    Swarm.city System    ', {
+      figlet.text('    Swarm.city    ', {
         font: 'Ogre',
         horizontalLayout: 'default',
         verticalLayout: 'default'
@@ -566,7 +566,7 @@ function composePs() {
  * #############################################################################
  * @method composeStop
  * #############################################################################
- * Stop all instances of the SwarmCity system
+ * Stop all instances of the SwarmCity
 **/
 function composeStop() {
   shell.cd(homeDir);
@@ -584,7 +584,7 @@ function composeStop() {
  * #############################################################################
  * @method composeKill
  * #############################################################################
- * Kill all instances of the SwarmCity system
+ * Kill all instances of the SwarmCity 
 **/
 function composeKill() {
   shell.cd(homeDir);
@@ -601,7 +601,7 @@ function composeKill() {
  * #############################################################################
  * @method composeRm
  * #############################################################################
- * Kill all instances of the SwarmCity system. If it fails, it does it by force
+ * Kill all instances of the SwarmCity. If it fails, it does it by force
 **/
 function composeRm() {
   shell.cd(homeDir);
