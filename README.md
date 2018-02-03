@@ -30,35 +30,36 @@ The installer will allow Swarm City to be installed on any platform via the comm
 **Note**:- Make sure you can run `git`, `docker ps`, `docker-compose` without any issue and without sudo command.
 
 ## Installation
-
 ```
-$ git clone https://github.com/swarmcity/SwarmCityInstaller.git
-$ cd SwarmCityInstaller
-$ npm install
-$ node swarmCity.js init
-$ node swarmCity.js build
+$ npm install -g swarmcity_installer
+```
+
+## Initialization
+```
+$ swarm init
+$ swarm build
 ````
 
 ## Start
 ```
-$ node swarmCity.js start
+$ swarm start
 ```
 ## Stop
 ```
-$ node swarmCity.js stop
+$ swarm stop
 ```
 ## Status
 ```
-$ node swarmCity.js ps
+$ swarm ps
 ```
 ## Logs
 ```
 # All
-$ node swarmCity.js logs
+$ swarm logs
 # Chain
-$ node swarmCity.js logs chain
+$ swarm logs chain
 # API
-$ node swarmCity.js logs api
+$ swarm logs api
 # Store
-$ node swarmCity.js logs store
+$ swarm logs store
 ```
