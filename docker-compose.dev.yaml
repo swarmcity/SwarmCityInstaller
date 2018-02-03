@@ -25,13 +25,13 @@ services:
       - platform.env
 
   api:
-    build: SwarmCityAPI
+    build: ${WORKSPACE}/SwarmCityAPI
     env_file:
       - .env
     ports:
       - "8011:8011"
     volumes:
-      - ./SwarmCityAPI/src:/root/src
+      - ${WORKSPACE}/SwarmCityAPI/src:/root/src
     depends_on:
       - store
       - chain
@@ -40,7 +40,7 @@ services:
       - chain
 
   site:
-    build: SwarmCitySite
+    build: ${WORKSPACE}/SwarmCitySite
     env_file:
       - platform.env
     ports:
@@ -48,7 +48,7 @@ services:
     links:
       - api
     volumes:
-      - ./SwarmCitySite:/root
+      - ${WORKSPACE}/SwarmCitySite:/root
     command:
       - "polymer"
       - "serve" 

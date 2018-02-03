@@ -15,19 +15,18 @@ var properties = require("properties");
 var datetime = require('node-datetime');
 
 shell.config.silent = true;
-var homeDir = __dirname;
-var workspace = os.homedir();
+var homeDir = os.homedir() + "/.swarmcity_installer";
+var workspace = os.homedir() + "/Swarmdev";
 var debug = "Enable";
 var installationType = "Development";
 var site = "www.example.com";
-var api = "api.example.com";
 var apiKey = "12345678901234567890";
 var siteImage = "latest"
 var apiImage = "latest"
 var storeImage = "latest"
 var certsImage = "latest"
 var proxyImage = "latest"
-var swarmCitySystemVersion = "v0.01"
+var swarmCitySystemVersion = "v0.1.8"
 var logfile = path.join(homeDir, "swarmCity.log");
 var confFile = path.join(homeDir, ".env");
 var platformFile = path.join(homeDir, "platform.env");
@@ -40,13 +39,13 @@ cmd.option('ps', 'Show running status')
   .option('init', 'initialize configurations')
   .option('start', 'Start swarmCity system.')
   //  .option('server', 'Initialize swarmCity system in a server environment')
-  .option('build', 'Build custom docker images')
+  .option('build', 'Build repos and docker images')
   .option('logs [name]', 'Get docker logs', /^(site|api|store|proxy|certs|parity)$/i)
   .option('stop', 'Stop all running dockers')
   .option('kill', 'Forcefully stop all running dockers')
   .option('rm', 'Clear all stopped docker containers')
   .option('pull', 'Pull all docker images from a docker registries')
-  .version('0.0.1-rc.7', '-v, --version', 'Output the version number')
+  .version('v0.1.8', '-v, --version', 'Output the version number')
   .parse(process.argv);
 
 
@@ -152,7 +151,8 @@ function validateDocker() {
 
 function getSource() {
   var promise = new Promise(function (resolve, reject) {
-    shell.cd(homeDir);
+    shell.mkdir('-p', workspace);
+    shell.cd(workspace);
     console.log("Cloning Site repo...")
     setTimeout(function () {
       shell.exec("git clone  " + siteRepo, function (code, stdout, stderr) {
@@ -289,7 +289,7 @@ function getUserInputs() {
           type: 'input',
           name: 'workpath',
           message: 'Workpath:',
-          default: homeDir + "/Swarmdev",
+          default: os.homedir() + "/Swarmdev",
           validate: function (str) {
             var ret = path.parse(str);
             if (ret.root != "")
@@ -321,18 +321,18 @@ function getUserInputs() {
         //     return "Please enter a fully qualified domain name."
         //   }
         // },
-        {
-          type: 'input',
-          name: 'apiKey',
-          message: 'NS1 API key:',
-          default: apiKey,
-          validate: function (str) {
-            if (validator.isByteLength(str, 20, 20)) {
-              return true;
-            }
-            return "Please check the API key again ... "
-          }
-        },
+        // {
+        //   type: 'input',
+        //   name: 'apiKey',
+        //   message: 'NS1 API key:',
+        //   default: apiKey,
+        //   validate: function (str) {
+        //     if (validator.isByteLength(str, 20, 20)) {
+        //       return true;
+        //     }
+        //     return "Please check the API key again ... "
+        //   }
+        // },
         // {
         //   type: 'list',
         //   message: 'Debug mode enabled or disabled? (Certificates)',
@@ -349,13 +349,13 @@ function getUserInputs() {
         // },
         {
           type: 'list',
-          message: 'Type of installation',
+          message: 'Type of installation', 
           name: 'installationType',
           default: installationType,
           choices: [
-            {
-              name: 'Production'
-            },
+            // {
+            //   name: 'Production'
+            // },
             {
               name: 'Development'
             }
@@ -380,7 +380,7 @@ function getUserInputs() {
 function validateUserInputs(answers) {
 
   site = answers.siteHostname;
-  homeDir = answers.workpath;
+  workspace = answers.workpath;
 
   installationType = answers.installationType;
 
@@ -427,13 +427,6 @@ function updateConfigFiles() {
       console.log("Updating configurations ... ");
       logger.log("info", "Updating configurations");
 
-      shell.mkdir('-p', homeDir);
-
-      logfile = path.join(homeDir, "swarmCity.log");
-      confFile = path.join(homeDir, ".env");
-      platformFile = path.join(homeDir, "platform.env");
-      composeFile = path.join(homeDir, "docker-compose.yaml");
-
       shell.cp(path.join(__dirname, "platform.env.example"), platformFile);
       shell.cp(path.join(__dirname, ".env-dist"), confFile);
 
@@ -445,11 +438,7 @@ function updateConfigFiles() {
 
       shell.sed('-i', 'DEBUG=.*', "DEBUG=" + debug, platformFile);
       shell.sed('-i', 'SITE_HOSTNAME=.*', "SITE_HOSTNAME=" + site, platformFile);
-      shell.sed('-i', 'WORKSPACE=.*', "WORKSPACE=" + homeDir, confFile);
-
-      shell.ln(platformFile, path.join(__dirname, "platform.env"));
-      shell.ln(confFile, path.join(__dirname, ".env"));
-      shell.ln(composeFile, path.join(__dirname, "docker-compose.yaml"));
+      shell.sed('-i', 'WORKSPACE=.*', "WORKSPACE=" + workspace, confFile);
 
       resolve({ data: '200' });
     });
@@ -471,7 +460,7 @@ function sourceBuild() {
       shell.cd(workspace + "/SwarmCitySite");
       shell.config.silent = false;
       console.log("Building SwarmCitySite code base");
-      shell.exec("npm install --verbose && bower install && NODE_ENV=dev node_modules/webpack/bin/webpack.js", function (code, stdout, stderr) {
+      shell.exec("npm install --verbose && node_modules/bower/bin/bower install && NODE_ENV=dev node_modules/webpack/bin/webpack.js", function (code, stdout, stderr) {
         console.log(stdout);
         logger.log("info", "Building source of SwarmCitySite.\n" + stdout);
         if (code !== 0) {
@@ -492,7 +481,7 @@ function sourceBuild() {
               console.log('Error', "Code: " + code + ", msg: " + stderr);
               shell.cd(workspace);
             } else {
-              shell.cd(workspace);
+              shell.cd(homeDir);
               shell.exec("docker-compose build", function (code, stdout, stderr) {
                 console.log(stdout);
                 logger.log("info", "Building docker-compose images\n" + stdout);
@@ -521,7 +510,7 @@ function sourceBuild() {
 function composeUp() {
   console.log("Starting up docker containers ... ");
   logger.log("info", "Starting up docker containers");
-  shell.cd(workspace);
+  shell.cd(homeDir);
   shell.config.silent = false;
   shell.exec('docker-compose up -d', function (code, stdout, stderr) {
     console.log(stdout);
@@ -543,7 +532,7 @@ function composeUp() {
  * Get the latest images from the repository
 **/
 function composePull() {
-  shell.cd(workspace);
+  shell.cd(homeDir);
   shell.config.silent = false;
   console.log("Pulling docker images ... ");
   logger.log("info", "Pulling docker images");
@@ -564,7 +553,7 @@ function composePull() {
  * Returns the current state of the system
 **/
 function composePs() {
-  shell.cd(workspace);
+  shell.cd(homeDir);
   shell.exec('docker-compose ps', function (code, stdout, stderr) {
     console.log(stdout);
     logger.log("info", "docker-compose ps\n " + stdout);
@@ -582,7 +571,7 @@ function composePs() {
  * Stop all instances of the SwarmCity system
 **/
 function composeStop() {
-  shell.cd(workspace);
+  shell.cd(homeDir);
   shell.exec('docker-compose stop', function (code, stdout, stderr) {
     console.log(stdout);
     logger.log("info", "docker-compose stop\n" + stdout);
@@ -600,7 +589,7 @@ function composeStop() {
  * Kill all instances of the SwarmCity system
 **/
 function composeKill() {
-  shell.cd(workspace);
+  shell.cd(homeDir);
   shell.exec('docker-compose kill', function (code, stdout, stderr) {
     logger.log("info", "docker-compose kill\n" + stdout);
     if (code !== 0) {
@@ -617,7 +606,7 @@ function composeKill() {
  * Kill all instances of the SwarmCity system. If it fails, it does it by force
 **/
 function composeRm() {
-  shell.cd(workspace);
+  shell.cd(homeDir);
   shell.exec('docker-compose kill', function (code, stdout, stderr) {
     logger.log("info", "docker-compose kill\n" + stdout);
     if (code !== 0) {
@@ -644,7 +633,7 @@ function composeRm() {
  * If no container is indicated, the log of all is displayed
 **/
 function composeLogs(log) {
-  shell.cd(workspace);
+  shell.cd(homeDir);
   shell.config.silent = false;
   if (log == true) {
     shell.exec('docker-compose logs -f --tail=500',
@@ -674,7 +663,7 @@ function composeLogs(log) {
  * Initialize the system
 **/
 function swarmCityInit() {
-
+  shell.mkdir('-p', homeDir);
   shell.cd(homeDir);
   shell.cp(path.join(__dirname, "platform.env.example"), platformFile);
   shell.cp(path.join(__dirname, ".env-dist"), confFile);

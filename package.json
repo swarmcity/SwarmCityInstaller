@@ -1,22 +1,23 @@
 {
-  "name": "SwarmcityInstaller",
-  "version": "0.0.1-rc.7",
+  "name": "swarmcity_installer",
+  "version": "0.1.8",
   "description": "Swarmcity installer",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "swarmCity": "./swarmCity.js"
+    "swarm": "./swarmCity.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/swarmcity/SwarmCityInstaller.git"
   },
   "keywords": [
-    "Ethereum"
+    "Ethereum",
+    "SwarmCity"
   ],
-  "author": "Swarmcity",
+  "author": "Eduardo Antuña",
   "license": "MIT",
   "dependencies": {
     "chalk": "^2.1.0",
@@ -34,7 +35,7 @@
     "winston": "^2.3.1"
   },
   "bugs": {
-    "url": "https://github.coms/warmcity/SwarmCityInstaller/issues"
+    "url": "https://github.coms/swarmcity/SwarmCityInstaller/issues"
   },
   "homepage": "https://github.com/swarmcity/SwarmCityInstaller#readme"
 }
