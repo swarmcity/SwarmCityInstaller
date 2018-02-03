@@ -1,13 +1,13 @@
 {
   "name": "swarmcity_installer",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Swarmcity installer",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
-    "swarm": "./swarmCity.js"
+    "swarmcity": "./swarmCity.js"
   },
   "repository": {
     "type": "git",

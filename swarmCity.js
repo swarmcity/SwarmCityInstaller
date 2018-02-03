@@ -26,7 +26,7 @@ var apiImage = "latest"
 var storeImage = "latest"
 var certsImage = "latest"
 var proxyImage = "latest"
-var swarmCitySystemVersion = "v0.1.8"
+var swarmCitySystemVersion = "v0.1.9"
 var logfile = path.join(homeDir, "swarmCity.log");
 var confFile = path.join(homeDir, ".env");
 var platformFile = path.join(homeDir, "platform.env");
@@ -45,7 +45,7 @@ cmd.option('ps', 'Show running status')
   .option('kill', 'Forcefully stop all running dockers')
   .option('rm', 'Clear all stopped docker containers')
   .option('pull', 'Pull all docker images from a docker registries')
-  .version('v0.1.8', '-v, --version', 'Output the version number')
+  .version('v0.1.9', '-v, --version', 'Output the version number')
   .parse(process.argv);
 
 
@@ -166,8 +166,6 @@ function getSource() {
               logger.log('Error', "Code: " + code + ", msg: " + stderr);
               console.log('Error', "Code: " + code + ", msg: " + stderr);
             } else {
-              shell.sed('-i', 'WORKSPACE=.*', "WORKSPACE=" + shell.pwd(),
-                confFile);
               resolve({ data: '200' });
             }
           });
