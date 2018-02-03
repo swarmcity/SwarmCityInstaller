@@ -15,7 +15,7 @@ var properties = require("properties");
 var datetime = require('node-datetime');
 
 shell.config.silent = true;
-var homeDir = __dirname;
+var homeDir = os.homedir();
 var workspace = os.homedir();
 var debug = "Enable";
 var installationType = "Development";
@@ -27,7 +27,7 @@ var apiImage = "latest"
 var storeImage = "latest"
 var certsImage = "latest"
 var proxyImage = "latest"
-var swarmCitySystemVersion = "v0.01"
+var swarmCitySystemVersion = "v0.1.1"
 var logfile = path.join(homeDir, "swarmCity.log");
 var confFile = path.join(homeDir, ".env");
 var platformFile = path.join(homeDir, "platform.env");
@@ -321,18 +321,18 @@ function getUserInputs() {
         //     return "Please enter a fully qualified domain name."
         //   }
         // },
-        {
-          type: 'input',
-          name: 'apiKey',
-          message: 'NS1 API key:',
-          default: apiKey,
-          validate: function (str) {
-            if (validator.isByteLength(str, 20, 20)) {
-              return true;
-            }
-            return "Please check the API key again ... "
-          }
-        },
+        // {
+        //   type: 'input',
+        //   name: 'apiKey',
+        //   message: 'NS1 API key:',
+        //   default: apiKey,
+        //   validate: function (str) {
+        //     if (validator.isByteLength(str, 20, 20)) {
+        //       return true;
+        //     }
+        //     return "Please check the API key again ... "
+        //   }
+        // },
         // {
         //   type: 'list',
         //   message: 'Debug mode enabled or disabled? (Certificates)',
@@ -349,13 +349,13 @@ function getUserInputs() {
         // },
         {
           type: 'list',
-          message: 'Type of installation',
+          message: 'Type of installation', 
           name: 'installationType',
           default: installationType,
           choices: [
-            {
-              name: 'Production'
-            },
+            // {
+            //   name: 'Production'
+            // },
             {
               name: 'Development'
             }
