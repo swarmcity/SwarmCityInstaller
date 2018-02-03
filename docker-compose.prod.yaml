@@ -33,7 +33,7 @@ services:
       - platform.env
 
   api:
-    build: SwarmCityAPI
+    build: ${WORKSPACE}/SwarmCityAPI
     env_file:
       - platform.env
     depends_on:

@@ -17,6 +17,11 @@ The installer will allow Swarm City to be installed on any platform via the comm
 
    Install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) commandline tool.
 
+(UBUNTU)
+```
+sudo apt-get install build-essential
+````
+
 ## Install dependencies
 
 - docker
@@ -36,9 +41,9 @@ $ npm install -g swarmcity_installer
 
 ## Initialization
 ```
-$ swarm init
+$ sudo swarm init
 $ swarm build
-````
+```
 
 ## Start
 ```
