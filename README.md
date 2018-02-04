@@ -41,30 +41,30 @@ $ npm install -g swarmcity_installer
 
 ## Initialization
 ```
-$ sudo swarm init
-$ swarm build
+$ swarmcity init
+$ swarmcity build
 ```
 
 ## Start
 ```
-$ swarm start
+$ swarmcity start
 ```
 ## Stop
 ```
-$ swarm stop
+$ swarmcity stop
 ```
 ## Status
 ```
-$ swarm ps
+$ swarmcity ps
 ```
 ## Logs
 ```
 # All
-$ swarm logs
+$ swarmcity logs
 # Chain
-$ swarm logs chain
+$ swarmcity logs chain
 # API
-$ swarm logs api
+$ swarmcity logs api
 # Store
-$ swarm logs store
+$ swarmcity logs store
 ```
