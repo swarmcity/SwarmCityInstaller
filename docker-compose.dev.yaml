@@ -14,7 +14,7 @@ services:
       - platform.env
 
   chain:
-    image: swarmcity/swarmcity_chain:rinkeby
+    image: "{CHAIN_IMAGE_TEST}"
     ports:
       - "127.0.0.1:8445:8545"
       - "127.0.0.1:8446:8546"
