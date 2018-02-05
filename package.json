@@ -1,6 +1,6 @@
 {
   "name": "swarmcity_installer",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "Swarmcity installer",
   "main": "index.js",
   "scripts": {
