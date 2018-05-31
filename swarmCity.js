@@ -19,7 +19,7 @@ var installationType = 'Development'
 var site = 'www.example.com'
 var siteRepo = ''
 var apiRepo = ''
-var swarmCityInstallerVersion = 'v0.1.11'
+var swarmCityInstallerVersion = 'v0.2.0'
 var logFile = path.join(homeDir, 'swarmCity.log')
 var confFile = path.join(homeDir, '.env')
 var platformFile = path.join(homeDir, 'platform.env')
@@ -38,7 +38,7 @@ cmd.option('ps', 'Show running status')
   .option('kill', 'Forcefully stop all running dockers')
   .option('rm', 'Clear all stopped docker containers')
   .option('pull', 'Pull all docker images from a docker registries')
-  .version('v0.1.11', '-v, --version', 'Output the version number')
+  .version('v0.2.0', '-v, --version', 'Output the version number')
   .parse(process.argv)
 
 /**
