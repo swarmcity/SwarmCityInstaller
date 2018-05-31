@@ -1,7 +1,7 @@
 version: "3.3"
 
 volumes:
-    rinkeby:
+    kovan:
 
 services:  
   store:
@@ -14,15 +14,16 @@ services:
       - platform.env
 
   chain:
-    image: swarmcity/swarmcity_chain:rinkeby
+    image: parity/parity
     ports:
-      - "127.0.0.1:8445:8545"
-      - "127.0.0.1:8446:8546"
-      - "34343:30303"
+      - "30303:30303"
+      - "30303:30303/udp"
+      - "127.0.0.1:8545:8545"
+      - "127.0.0.1:8546:8546"
     volumes:
-      - rinkeby:/home/.rinkeby
-    env_file:
-      - platform.env
+      - kovan:/root/.local/share/io.parity.ethereum/
+    command:
+      --chain=kovan -j --jsonrpc-hosts all --jsonrpc-interface all --ws-interface 0.0.0.0 --ws-port 8546 --ws-origins '*' --ws-hosts all --cache-size 1024
 
   api:
     build: ${WORKSPACE}/SwarmCityAPI

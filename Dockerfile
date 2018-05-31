@@ -1,4 +1,4 @@
-FROM node:6
+FROM node:8
 WORKDIR /root
 RUN apt-get update && \
     apt-get install git
