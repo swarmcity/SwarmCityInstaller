@@ -23,7 +23,7 @@
     "chalk": "^2.1.0",
     "commander": "^2.13.0",
     "figlet": "^1.2.0",
-    "inquirer": "^3.2.1",
+    "inquirer": "^3.3.0",
     "os": "^0.1.1",
     "path": "^0.12.7",
     "properties": "^1.2.1",
